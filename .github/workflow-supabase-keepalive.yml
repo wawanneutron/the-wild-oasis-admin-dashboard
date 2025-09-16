@@ -1,0 +1,19 @@
+name: Supabase Keep Alive - The Wild Oasis Admin Dashboard
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # tiap 1x sehari 03:00 UTC (10:00 WIB)
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print datetime
+        run: date -u
+
+      - name: Curl request to Supabase
+        run: |
+          curl -s "${{ secrets.SUPABASE_URL }}/rest/v1/cabins?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}"
